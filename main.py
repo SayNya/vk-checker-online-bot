@@ -27,19 +27,15 @@ def get_status(user_id):
         'fields': 'online'
     }
     request = requests.post('https://api.vk.com/method/users.get', params=params).json()
+    print(request)
     return request['response'][0]['online']
 
 
 if __name__ == '__main__':
-    online = False
     while True:
         status = get_status(VK_ID)
-        if not online and status:
+        if status:
             send_message('Online')
-            online = True
-        elif online and not status:
+        else:
             send_message('Offline')
-            online = False
-            print(f'{online=}; {status=}')
-        print(f'{online=}; {status=}')
-        time.sleep(300)
+        time.sleep(600)
